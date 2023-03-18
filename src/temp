@@ -1,0 +1,50 @@
+import wx
+import threading
+import time
+
+class MyFrame(wx.Frame):
+    def __init__(self):
+        super().__init__(parent=None, title='Timer Example')
+        panel = wx.Panel(self)
+
+        self.button = wx.Button(panel, label='Start')
+        self.button.Bind(wx.EVT_BUTTON, self.on_button_click)
+
+        self.timer_text = wx.StaticText(panel, label='00:00:00')
+        font = wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.timer_text.SetFont(font)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.button, wx.SizerFlags().Border(wx.ALL, 10).Center())
+        sizer.Add(self.timer_text, wx.SizerFlags().Border(wx.ALL, 10).Center())
+        panel.SetSizer(sizer)
+
+        self.timer_thread = None
+        self.timer_start_time = None
+        self.timer_duration = 25 * 60  # 25 minutes in seconds
+
+    def on_button_click(self, event):
+        if self.timer_thread is None:
+            self.button.SetLabel('Focus')
+            self.timer_start_time = time.time()
+            self.timer_thread = threading.Thread(target=self.run_timer)
+            self.timer_thread.start()
+        else:
+            self.button.SetLabel('Start')
+            self.timer_thread.join()
+            self.timer_thread = None
+            self.timer_text.SetLabel('00:00:00')
+
+    def run_timer(self):
+        while time.time() - self.timer_start_time < self.timer_duration:
+            elapsed_time = time.time() - self.timer_start_time
+            hours, remainder = divmod(int(elapsed_time), 3600)
+            minutes, seconds = divmod(remainder, 60)
+            time_str = f'{hours:02d}:{minutes:02d}:{seconds:02d}'
+            wx.CallAfter(self.timer_text.SetLabel, time_str)
+            time.sleep(1)
+        wx.CallAfter(self.button.SetLabel, 'Start')
+        wx.CallAfter(self.timer_text.SetLabel, '00:00:00')
+
+if __name__ == '__main__':
+
