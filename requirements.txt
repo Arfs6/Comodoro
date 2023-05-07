@@ -1,0 +1,4 @@
+wxpython
+pyzmq
+configobj
+pypubsub
