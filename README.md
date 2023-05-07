@@ -27,4 +27,4 @@ To start comodoro and show the GUI:
 This is currently not supported but will be added shortly. 
 ## LICENSE  
 This software is licensed under the GNU General Public License. You can find
-the license in the <./LICENSE.md> file.
+the license in the [LICENSE.md](./LICENSE.md) file.
