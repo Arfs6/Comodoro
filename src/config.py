@@ -122,5 +122,16 @@ class Config:
         self.config['messenger']['timeout'] = value
         self.config.write()
 
+    @property
+    def audio_timer(self) -> str:
+        """The audio to play when a timer is done"""
+        return self.config['audio']['timer']
+
+    @audio_timer.setter
+    def audio_timer(self, path: str) -> None:
+        """setter method for audio_timer"""
+        self.config['audio']['timer'] = path
+        self.config.write()
+
 
 config = Config()  # This object should be used for accessing configs

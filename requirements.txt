@@ -2,3 +2,4 @@ wxpython
 pyzmq
 configobj
 pypubsub
+python-vlc
