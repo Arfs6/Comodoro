@@ -8,8 +8,10 @@ from pubsub import pub
 from logging import getLogger
 from threading import Thread, Event
 
-from .session import Session
+from config import config
+from .audio import Audio
 from .messenger import REPMessenger, PUBMessenger
+from .session import Session
 
 
 log = getLogger(__name__)
@@ -23,7 +25,7 @@ class Controller:
     def __init__(self):
         """Initialize all the necessary objects and bind pubsub events"""
         log.debug("Initializing controller")
-        self.sessionThread = None
+        # initialize messengers
         self.supportedRequests = {
                 'start': self.startReq,
                 'exit': self.exitReq,
@@ -33,7 +35,12 @@ class Controller:
         self.repMessengerThread = Thread(
                 target=REPMessenger, daemon=True, args=(self.reqThreadEvent, ))
         self.repMessengerThread.start()
+
+        # session
+        self.sessionThread = None
         self.session = Session()
+
+        self.audio = Audio()
 
         self.bindPubsub()
 
@@ -44,6 +51,7 @@ class Controller:
         pub.subscribe(self.updateTimer, "updateTimer")
         pub.subscribe(self.handleRequest, 'handleRequest')
         pub.subscribe(self.sessionFinished, 'sessionFinished')
+        pub.subscribe(self.timerDone, 'timerDone')
 
     def handleRequest(self, request: dict):
         """Handles the request by sending it to the appropriate method
@@ -123,3 +131,7 @@ class Controller:
                 'topic': 'sessionFinished',
                 }
         pub.sendMessage('sendPubsub', message=message)
+
+    def timerDone(self) -> None:
+        """Plays an audio notifying the user that timer is finished"""
+        self.audio.playAudio(config.audio_timer)

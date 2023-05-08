@@ -51,6 +51,7 @@ class Session:
         for elapsedTime, percentage in Timer(seconds=breakTime):
             pub.sendMessage('updateTimer', time=elapsedTime, percent=percentage)
 
+        pub.sendMessage('timerDone')
         if lastCircle:
             pub.sendMessage('sessionFinished')
 
@@ -60,3 +61,5 @@ class Session:
         self.circleNo += 1  # New circle
         for elapsedTime, percentage in Timer(seconds=self.focusTime):
             pub.sendMessage('updateTimer', time=elapsedTime, percent=percentage)
+
+        pub.sendMessage('timerDone')
