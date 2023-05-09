@@ -49,7 +49,8 @@ class Session:
             breakTime = self.longBreakTime
 
         for elapsedTime, percentage in Timer(seconds=breakTime):
-            pub.sendMessage('updateTimer', time=elapsedTime, percent=percentage)
+            pub.sendMessage('updateTimer', time=elapsedTime,
+                            percent=percentage, mode='break')
 
         pub.sendMessage('timerDone')
         if lastCircle:
@@ -60,6 +61,7 @@ class Session:
         log.debug("Starting the focus timer...")
         self.circleNo += 1  # New circle
         for elapsedTime, percentage in Timer(seconds=self.focusTime):
-            pub.sendMessage('updateTimer', time=elapsedTime, percent=percentage)
+            pub.sendMessage('updateTimer', time=elapsedTime,
+                            percent=percentage, mode='focus')
 
         pub.sendMessage('timerDone')

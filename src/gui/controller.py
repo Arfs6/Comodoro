@@ -119,7 +119,8 @@ class Controller:
         - message: pubsub message sent
         """
         log.debug(f"updating timer with: {message}")
-        self.view.updateTimer(message['elapsedTime'], message['percent'])
+        self.view.updateTimer(message['elapsedTime'], message['percent'],
+                              message['mode'])
 
     def successRep(self, reply: dict):
         """Successful request, do nothing

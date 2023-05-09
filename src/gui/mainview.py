@@ -101,14 +101,15 @@ class AppFrame(wx.Frame):
         self.timerText.AcceptsFocusFromKeyboard = returnTrue
         self.timerProgress.AcceptsFocusFromKeyboard = returnTrue
 
-    def updateTimer(self, elapsedTime: str, percent: int):
+    def updateTimer(self, elapsedTime: str, percent: int, mode: str) -> None:
         """Update the status of the timer
         Change the text control and the progress bar to reflect the changes
         Parameters:
         - elapsedTime: elapsed time in string
         percent: percentage of time elapsed
+        - mode: current mode i.e. break / focus
         """
-        self.timerText.SetValue(elapsedTime)
+        self.timerText.SetValue(f"{mode.title()} - {elapsedTime}")
         self.timerProgress.SetValue(percent)
 
     def reset(self) -> None:
