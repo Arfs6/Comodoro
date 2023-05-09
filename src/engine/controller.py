@@ -78,7 +78,7 @@ class Controller:
 
         self.supportedRequests[requestType](request)
 
-    def updateTimer(self, time: str, percent: int):
+    def updateTimer(self, time: str, percent: int, mode: str) -> None:
         """Sends the updated time
         Using the pubsub method
         parameters:
@@ -89,6 +89,7 @@ class Controller:
              'topic': 'updateTimer',
              'elapsedTime': time,
              'percent': percent,
+             'mode': mode,
                 }
         pub.sendMessage('sendPubsub', message=message)
 
