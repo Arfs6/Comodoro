@@ -4,6 +4,25 @@ Comodoro is a cross platform Graphical User Interface (GUI) and Command Line Int
 This project is currently on alpha stage. A lot of features hasn't been implemented yet.  
 ## INSTALLATION  
 At this point, comodoro doesn't have an installer, so you will have to build a stand alone executable yourself or run it from source. We will only cover running it from source for now. Installers will be created when the project is at beta stage.  
+### DEPENDENCIES  
+**Dependencies not related to python**  
+To be able to play a sound when a timer is done, you'll have to install the
+libvlc library or vlc. If you already have vlc, you are good to go.  
+#### [LINUX](https://code.videolan.org/videolan/LibVLCSharp/blob/master/docs/linux-setup.md)  
+To install libvlc on ubuntu, open a terminal and run this command:  
+```bash
+sudo apt-get install libvlc-dev
+```  
+#### [WINDOWS](https://www.videolan.org/vlc/)  
+Open your terminal and run the command:  
+```bash
+winget install VideoLAN.VLC.SDK
+```
+#### [MACOS](https://www.videolan.org/vlc/)  
+Open your terminal and run this command:  
+```bash
+brew install libvlc
+```
 1. You will need python3.10.x. We aren't using the latest version of python (python3.11) because the GUI library comodoro is using has a [bug](https://github.com/wxWidgets/Phoenix/issues/2296) that makes installing it via pip buggy. If you don't have python, you can get one [here](https://www.python.org/downloads/).  
 2. To run it from source, start by cloning this repo:  
     ```bash
