@@ -37,6 +37,7 @@ class Controller:
 
         self.view.Show()
         log.debug("Called Show method of AppFrame")
+        self.view.mainBtn.SetFocus()
         # self.subMessengerThread.join()
 
     def initAttrs(self):
