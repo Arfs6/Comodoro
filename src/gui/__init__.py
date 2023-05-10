@@ -33,7 +33,7 @@ def logUnhandledExceptions(excType: type, excValue: Exception, traceback)\
 
     try:
         # Display an error message to the user
-        error_message = f"""An error occured while running the app.
+        error_message = f"""An error occured while running comodoro.
 Please go to {appInfo.githubURL} and create an issue to inform the\
  developers"""
         wx.MessageBox(error_message, "Error", wx.OK | wx.ICON_ERROR)
