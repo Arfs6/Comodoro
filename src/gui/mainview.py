@@ -85,15 +85,17 @@ class AppFrame(wx.Frame):
         # manage sizers
         topSizer = wx.BoxSizer(wx.VERTICAL)
         topSizer.Add(self.timerText,
-                     wx.SizerFlags(1).Expand().Border(wx.ALL, 10))
+                     wx.SizerFlags().Align(wx.ALIGN_CENTER).Border(wx.TOP, 50))
         topSizer.Add(self.timerProgress,
-                     wx.SizerFlags(1).Expand().Border(wx.ALL, 10))
+                     wx.SizerFlags().Align(wx.ALIGN_CENTER).Border(wx.ALL, 10))
 
         btnSizer = wx.BoxSizer(wx.HORIZONTAL)  # button row sizer
         btnSizer.Add(self.settingsBtn, wx.SizerFlags(0).Center())
         btnSizer.Add(self.mainBtn, wx.SizerFlags(0).Border(wx.ALL, 10).Center())
         btnSizer.Add(self.helpBtn, wx.SizerFlags(0).Center())
-        topSizer.Add(btnSizer, 0, wx.EXPAND)
+
+        topSizer.AddStretchSpacer()
+        topSizer.Add(btnSizer, 0, wx.ALIGN_CENTER | wx.TOP, 10)
         panel.SetSizer(topSizer)
 
         # Enable tab traversal
