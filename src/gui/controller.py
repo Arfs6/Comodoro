@@ -112,7 +112,6 @@ class Controller:
                                "This feature hasn't been implemented yet",
                                "Not implemented",
                                wx.OK).ShowModal()
-        dlg.Destroy()
 
     def updateTimer(self, message: dict):
         """Update the timer text box and progress bar
