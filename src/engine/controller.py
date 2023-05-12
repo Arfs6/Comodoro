@@ -7,6 +7,7 @@ It controlls the Session object and binds pubsub events
 from pubsub import pub
 from logging import getLogger
 from threading import Thread, Event
+from typing import Union
 
 from config import config
 from .audio import Audio
@@ -29,6 +30,7 @@ class Controller:
         self.supportedRequests = {
                 'start': self.startReq,
                 'exit': self.exitReq,
+                'stop': self.stopReq,
                 }
         self.pubMessenger = PUBMessenger()
         self.reqThreadEvent = Event()
@@ -37,21 +39,23 @@ class Controller:
         self.repMessengerThread.start()
 
         # session
-        self.sessionThread = None
-        self.session = Session()
+        self.sessionThread: Union[None, Thread] = None
+        self.sessionEvent = Event()
+        self.session = Session(self.sessionEvent)
 
         self.audio = Audio()
 
-        self.bindPubsub()
+        self.subscribePubsub()
 
         self.repMessengerThread.join()
 
-    def bindPubsub(self):
+    def subscribePubsub(self):
         """Bind all pub sub events."""
         pub.subscribe(self.updateTimer, "updateTimer")
         pub.subscribe(self.handleRequest, 'handleRequest')
         pub.subscribe(self.sessionFinished, 'sessionFinished')
         pub.subscribe(self.timerDone, 'timerDone')
+        pub.subscribe(self.timerStopped, 'timerStopped')
 
     def handleRequest(self, request: dict):
         """Handles the request by sending it to the appropriate method
@@ -136,3 +140,31 @@ class Controller:
     def timerDone(self) -> None:
         """Plays an audio notifying the user that timer is finished"""
         self.audio.playAudio(config.audio_timer)
+
+    def stopReq(self, request: dict) -> None:
+        """Stop the timer and session.
+        Parameter:
+         - request: the request dictionary
+        """
+        if not self.sessionThread:
+            reply = {
+                    'type': 'stop',
+                    'status': 'stopped',
+                    }
+        self.sessionEvent.set()
+        if self.sessionThread:
+            self.sessionThread.join()
+
+    def timerStopped(self):
+        """Tell view timer has stopped and delete session thread """
+        reply = {
+                'type': 'success',
+                'requestName': 'stop',
+                }
+        pub.sendMessage('sendRep', reply=reply)
+        message = {
+                'topic': 'timerStopped',
+                }
+        pub.sendMessage('sendPubsub', message=message)
+        self.sessionThread = None
+        self.sessionEvent.clear()

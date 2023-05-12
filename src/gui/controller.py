@@ -37,7 +37,7 @@ class Controller:
 
         self.view.Show()
         log.debug("Called Show method of AppFrame")
-        self.view.mainBtn.SetFocus()
+        self.view.startBtn.SetFocus()
         # self.subMessengerThread.join()
 
     def initAttrs(self):
@@ -51,6 +51,7 @@ class Controller:
         self.supportedReplies: Dict[str, Callable[[dict], None]] = {
                 'success': self.successRep,
                 'error': self.errorRep,
+                'stop': self.stopRep,
                 }
 
     def subscribePubsubEvents(self):
@@ -64,7 +65,10 @@ class Controller:
     def bindGUIElements(self):
         """Bind GUI elements to the appropriate handlers"""
         log.debug("binding gui elements")
-        self.view.mainBtn.Bind(wx.EVT_BUTTON, self.onMainBtn)
+        # Bind the strt and stop button to the same method since they both do
+        # the same thing
+        self.view.startBtn.Bind(wx.EVT_BUTTON, self.onMainBtn)
+        self.view.stopBtn.Bind(wx.EVT_BUTTON, self.onMainBtn)
         self.view.settingsBtn.Bind(wx.EVT_BUTTON, self.notImplemented)
         self.view.helpBtn.Bind(wx.EVT_BUTTON, self.notImplemented)
 
@@ -92,14 +96,15 @@ class Controller:
             f"Message sent by engine via pubsub has no topic: {message}")
         elif topic not in self.supportedTopics:
             log.debug(f"An unsupported topic was sent via pubsub socket: {topic}")
-
-        self.supportedTopics[topic](message)
+        else:
+            self.supportedTopics[topic](message)
 
     def onMainBtn(self, event):
         """Handle the main button click event"""
         log.debug("Main button pressed")
+        mainBtn = event.GetEventObject()
         request = {
-                'type': self.view.mainBtn.GetLabel().lower()
+                'type': mainBtn.GetLabel().lower()
                 }
         pub.sendMessage('sendReq', request=request)
 
@@ -130,6 +135,15 @@ class Controller:
         log.debug(
                 f"The request {reply['requestName']} was successful"
                 )
+        
+        requestType = reply.get('requestName')
+        if not requestType:
+            return
+
+        if requestType == 'stop':
+            self.view.reset()
+        elif requestType == 'start':
+            self.view.setMainBtn(stop=True)
 
     def errorRep(self, reply:dict ):
         """A request was wrong, do nothing
@@ -156,5 +170,16 @@ class Controller:
         """A message have finished. Reset the view
         Parameter:
         - message: the message dictionary
+        """
+        self.view.reset()
+
+    def stopRep(self, reply: dict) -> None:
+        """Timer has already been stopped"""
+        log.debug("Timer have already been stopped")
+
+    def timerStopped(self, message: dict) -> None:
+        """The timer have been stopped! reset view
+        Parameter:
+        - message: sub message from socket
         """
         self.view.reset()

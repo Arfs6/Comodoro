@@ -72,7 +72,9 @@ class AppFrame(wx.Frame):
 
         # buttons
         self.settingsBtn = wx.Button(panel, label="Settings")
-        self.mainBtn = wx.Button(panel, label="Start")
+        self.startBtn = wx.Button(panel, label="Start")
+        self.stopBtn = wx.Button(panel, label="Stop")
+        self.stopBtn.Hide()
         self.helpBtn = wx.Button(panel, label="Help")
 
         # add icons to the buttons
@@ -83,20 +85,21 @@ class AppFrame(wx.Frame):
         self.helpBtn.SetBitmap(help_icon)
 
         # manage sizers
-        topSizer = wx.BoxSizer(wx.VERTICAL)
-        topSizer.Add(self.timerText,
+        self.topSizer = wx.BoxSizer(wx.VERTICAL)
+        self.topSizer.Add(self.timerText,
                      wx.SizerFlags().Align(wx.ALIGN_CENTER).Border(wx.TOP, 50))
-        topSizer.Add(self.timerProgress,
+        self.topSizer.Add(self.timerProgress,
                      wx.SizerFlags().Align(wx.ALIGN_CENTER).Border(wx.ALL, 10))
 
         btnSizer = wx.BoxSizer(wx.HORIZONTAL)  # button row sizer
         btnSizer.Add(self.settingsBtn, wx.SizerFlags(0).Center())
-        btnSizer.Add(self.mainBtn, wx.SizerFlags(0).Border(wx.ALL, 10).Center())
+        btnSizer.Add(self.startBtn, wx.SizerFlags(0).Border(wx.ALL, 10).Center())
+        btnSizer.Add(self.stopBtn, wx.SizerFlags(0).Border(wx.ALL, 10).Center())
         btnSizer.Add(self.helpBtn, wx.SizerFlags(0).Center())
 
-        topSizer.AddStretchSpacer()
-        topSizer.Add(btnSizer, 0, wx.ALIGN_CENTER | wx.TOP, 10)
-        panel.SetSizer(topSizer)
+        self.topSizer.AddStretchSpacer()
+        self.topSizer.Add(btnSizer, 0, wx.ALIGN_CENTER | wx.TOP, 10)
+        panel.SetSizer(self.topSizer)
 
         # Enable tab traversal
         self.SetWindowStyle(wx.TAB_TRAVERSAL)
@@ -118,3 +121,15 @@ class AppFrame(wx.Frame):
         """Resets the view"""
         self.timerText.SetValue('00:00:00')
         self.timerProgress.SetValue(0)
+        self.setMainBtn()
+
+    def setMainBtn(self, stop: bool=False) -> None:
+        """Set the main button to either the start button or the stop button."""
+        if stop:
+            self.startBtn.Hide()
+            self.stopBtn.Show()
+        else:
+            self.stopBtn.Hide()
+            self.startBtn.Show()
+
+        self.topSizer.Layout()
