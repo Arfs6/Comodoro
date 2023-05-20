@@ -133,3 +133,9 @@ class AppFrame(wx.Frame):
             self.startBtn.Show()
 
         self.topSizer.Layout()
+
+    def startBtnIsShown(self) -> bool:
+        """Checks if the start button is shown
+        Returns: True if start button is shown else False
+        """
+        return self.startBtn.IsShown()

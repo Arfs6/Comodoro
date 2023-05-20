@@ -27,26 +27,20 @@ class Session:
         self.shortBreakTime: int = config.timer_shortBreak
         self.longBreakTime: int = config.timer_longBreak
         self.fullCircle: int = config.timer_fullCircle
+        self.isFocus: bool = False  # if the last mode finished is focus
 
     def start(self):
-        """Starts a full pomodoro session"""
-        log.debug("Starting a new pomodoro session")
-        try:
-            for i in range(self.fullCircle):
-                self.circle()
-        except TimerStopError:
-            log.debug("caugth TimerStop in start")
-            return
-
-    def circle(self):
-        """Runs a full pomodoro circle"""
-        log.debug("Starting a pomodoro circle")
-        self.focus()
-        self.takeBreak()
+        """Start the next timer"""
+        log.debug("Starting the next timer...")
+        if self.isFocus:
+            self.takeBreak()
+        else:
+            self.focus()
 
     def takeBreak(self):
         """Runs the timer for `break` time duration"""
         log.debug("Starting the take break timer...")
+        self.isFocus = False
         lastCircle: bool = self.circleNo == self.fullCircle
         if not lastCircle:
             # short break
@@ -65,13 +59,16 @@ class Session:
             # todo: remove this when you remove self.start and self.circle
             raise(TimerStopError("catch me in start"))
 
-        pub.sendMessage('timerDone')
         if lastCircle:
             pub.sendMessage('sessionFinished')
+            pub.sendMessage('timerDone', mode='longBreak')
+        else:
+            pub.sendMessage('timerDone', mode='shortBreak')
 
     def focus(self):
         """Runs the timer for `focus` time duration"""
         log.debug("Starting the focus timer...")
+        self.isFocus = True
         self.circleNo += 1  # New circle
         try:
                 for elapsedTime, percentage in Timer(seconds=self.focusTime,
@@ -84,4 +81,4 @@ class Session:
             # todo: remove this when you remove self.start and self.circle
             raise(TimerStopError("catch me in start"))
 
-        pub.sendMessage('timerDone')
+        pub.sendMessage('timerDone', mode='focus')

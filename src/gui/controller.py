@@ -45,6 +45,7 @@ class Controller:
         self.supportedTopics: Dict[str, Callable[[dict], None]] = {
                 'updateTimer': self.updateTimer,
                 'sessionFinished': self.sessionFinished,
+                'timerDone': self.timerDone,
                 }
 
         # supported replies
@@ -127,6 +128,10 @@ class Controller:
         self.view.updateTimer(message['elapsedTime'], message['percent'],
                               message['mode'])
 
+        # change Start button to Stop
+        if self.view.startBtnIsShown():
+            self.view.setMainBtn(stop=True)
+
     def successRep(self, reply: dict):
         """Successful request, do nothing
         Parameter:
@@ -183,3 +188,10 @@ class Controller:
         - message: sub message from socket
         """
         self.view.reset()
+
+    def timerDone(self, message: dict) -> None:
+        """Changes the main button to start
+        Parameters:
+        - message: Pubsub message from socket
+        """
+        self.view.setMainBtn()
