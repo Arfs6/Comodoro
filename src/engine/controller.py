@@ -164,6 +164,7 @@ class Controller:
 
         self.sessionEvent.set()
         if self.sessionThread:
+            # Wait for session thread to finish
             self.sessionThread.join()
 
         reply: Dict[str, str] = {
@@ -171,17 +172,14 @@ class Controller:
                 'requestName': 'stop',
                 }
         pub.sendMessage('sendRep', reply=reply)
-
-    def timerStopped(self):
-        """Tell view timer has stopped and delete session thread """
-        reply = {
-                'type': 'success',
-                'requestName': 'stop',
-                }
-        pub.sendMessage('sendRep', reply=reply)
-        message = {
+        message: dict= {
                 'topic': 'timerStopped',
                 }
         pub.sendMessage('sendPubsub', message=message)
+
+    def timerStopped(self):
+        """Tell view timer has stopped and delete session thread.
+        This method is called when view request to stop timer. `self.stopReq`.
+        """
         self.sessionThread = None
         self.sessionEvent.clear()

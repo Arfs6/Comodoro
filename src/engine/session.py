@@ -56,12 +56,11 @@ class Session:
         except TimerStopError:
             log.debug("Timer stopped in break mode")
             pub.sendMessage('timerStopped')
-            # todo: remove this when you remove self.start and self.circle
-            raise(TimerStopError("catch me in start"))
+            return
 
         if lastCircle:
-            pub.sendMessage('sessionFinished')
             pub.sendMessage('timerDone', mode='longBreak')
+            pub.sendMessage('sessionFinished')
         else:
             pub.sendMessage('timerDone', mode='shortBreak')
 
@@ -78,7 +77,6 @@ class Session:
         except TimerStopError:
             log.debug("Timer stopped in focus mode")
             pub.sendMessage('timerStopped')
-            # todo: remove this when you remove self.start and self.circle
-            raise(TimerStopError("catch me in start"))
+            return
 
         pub.sendMessage('timerDone', mode='focus')
