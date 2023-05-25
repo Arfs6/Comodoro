@@ -16,22 +16,22 @@ class Audio:
         """Initialize the object"""
         log.debug("initializing Audio")
         # initialize vlc instance, media player
-        self.instance = vlc.Instance()
-        self.player = self.instance.media_player_new()
+        self.instance: vlc.Instance = vlc.Instance()
+        self.player: vlc.MediaPlayer = self.instance.media_player_new()
 
     def playAudio(self, path: str) -> None:
         """Plays the audio
         Parameter:
         - path: path to audio file
         """
+        log.debug(f"Playing audio ({path})")
         if not os.path.exists(path):
-            log.debug(f"current path: {os.getcwd()}")
-            raise(ValueError(f"Couldn't find the file {path}"))
+            log.error(f"Couldn't find audio file to play.")
+            return
 
         # create media object
-        audio = self.instance.media_new(path)
+        audio: vlc.Media = self.instance.media_new(path)
 
         # play
         self.player.set_media(audio)
         self.player.play()
-        log.debug(f"Playing audio {path}")
