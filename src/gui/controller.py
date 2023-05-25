@@ -129,7 +129,7 @@ class Controller:
                               message['mode'])
 
         # change Start button to Stop
-        if self.view.startBtnIsShown():
+        if self.view.startBtnIsShown:
             self.view.setMainBtn(stop=True)
 
     def successRep(self, reply: dict):
