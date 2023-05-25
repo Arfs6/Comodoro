@@ -129,7 +129,7 @@ class Controller:
                               message['mode'])
 
         # change Start button to Stop
-        if self.view.startBtnIsShown():
+        if self.view.startBtnIsShown:
             self.view.setMainBtn(stop=True)
 
     def successRep(self, reply: dict):
@@ -181,6 +181,8 @@ class Controller:
     def stopRep(self, reply: dict) -> None:
         """Timer has already been stopped"""
         log.debug("Timer have already been stopped")
+        if not self.view.startBtnIsShown:
+            self.view.setMainBtn()
 
     def timerStopped(self, message: dict) -> None:
         """The timer have been stopped! reset view

@@ -3,3 +3,4 @@ pyzmq
 configobj
 pypubsub
 python-vlc
+cx_Freeze
