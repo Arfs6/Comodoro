@@ -9,8 +9,9 @@ class AppInfo:
     """
     appName = 'Comodaro'
     appname = appName.lower()
+    description = "A time management app"
     githubURL = 'https://github.com/arfs6/comodoro'
-    version = '0.1'
+    version = '0.0.1'
 
 
 appInfo = AppInfo()
