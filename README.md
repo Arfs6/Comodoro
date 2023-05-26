@@ -23,6 +23,7 @@ Open your terminal and run this command:
 ```bash
 brew install libvlc
 ```
+### Running From Source  
 1. You will need python3.10.x. We aren't using the latest version of python (python3.11) because the GUI library comodoro is using has a [bug](https://github.com/wxWidgets/Phoenix/issues/2296) that makes installing it via pip buggy. If you don't have python, you can get one [here](https://www.python.org/downloads/).  
 2. To run it from source, start by cloning this repo:  
     ```bash
@@ -36,6 +37,17 @@ cd comodoro
 ```bash
 pip install -r requirements.txt
 ```
+### Creating Standalone Executable  
+1. Do all the above steps for running from source.  
+2. Change your directory to the src directory.  
+	```bash
+	$ cd src
+	```
+3. Start the build process. 
+	```bash
+	$ python setup.py build
+	```
+	The executable will be found in `build/*/Comodoro.exe`.  
 ## USAGE  
 You can use comodoro in two ways. Using the GUI and CLI.  
 ### GUI  
