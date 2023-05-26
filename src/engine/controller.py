@@ -102,15 +102,18 @@ class Controller:
         Parameter:
             - request: request sent by view
         """
+        log.debug("Starting...")
         reply = {
                 'type': 'success',
                 'requestName': 'start',
                 }
         if self.sessionThread:
+            log.debug("Timer is running")
             pub.sendMessage('sendRep', reply=reply)
             return
         self.sessionThread = Thread(target=self.session.start, daemon=True)
         self.sessionThread.start()
+        log.debug("Started new mode")
         pub.sendMessage('sendRep', reply=reply)
 
     def exitReq(self, request: dict):
