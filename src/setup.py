@@ -15,7 +15,7 @@ def run() -> None:
     base = "Win32GUI" if sys.platform == "win32" else None
     executables = [
             Executable("main.pyw", base=base, target_name=appInfo.appName),
-            Executable("runEngine.py", target_name='engine')
+            Executable("runEngine.py", base=base, target_name='engine')
             ]
     options = {
             "build_exe": {
@@ -43,6 +43,7 @@ def getVlcLib() -> List[str]:
         return []
 
     paths: List[str] = [os.path.join(path, 'libvlc.dll')]
+    paths.append(os.path.join(path, 'libvlccore.dll'))  # include libvlccore
     # include plugin folder
     # remove gui related plugins
     path = os.path.join(path, 'plugins')
