@@ -10,7 +10,7 @@ If you have found any bug in comodoro, check the issues page if a simmilar bug h
     - Which platform are you running comodoro on. Windows, Macos or Linux?  
     - Upload all the log files.  
 4. Submit the issue.  
-5. If you're a developer and you'll want to solve it, read the (developers)[#developers] section.  
+5. If you're a developer and you'll want to solve it, read the [developers](#developers) section.  
 ## New Feature Request  
 Do you have any feature you'll like to see in comodoro? Tell us!  
 1. Check the milestone and issues page to make sure nobody have requested for the feature or we aren't working on it already.  
@@ -18,7 +18,7 @@ Do you have any feature you'll like to see in comodoro? Tell us!
 3. Give it a descriptive name. e.g. Add support for playing music depending on the current mode.  
 4. Describe the feature. Everything!  
 5. Submit the issue.  
-6. If you're a developer and you'll want to solve it, read the (developers)[#developers] section.  
+6. If you're a developer and you'll want to solve it, read the [developers](#developers) section.  
 ## Developers  
 You are a developer and you want to work on something? It is Simple. Just follow this steps:  
 1. Tell the community you are going to work on it.  If no issue has been opened for it, open it explaining the (bug)[#bugs] / ( feature )[#New Feature Request].  
