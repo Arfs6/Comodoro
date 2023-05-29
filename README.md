@@ -56,6 +56,9 @@ To start comodoro and show the GUI:
 2. Run the main.pyw file from terminal without any argument  
 ### CLI  
 This is currently not supported but will be added shortly. 
+## Contributions  
+All contributions are highly welcomed. Read our
+[contributing.md](./CONTRIBUTING.md) on how to contribute to comodoro.  
 ## LICENSE  
 This software is licensed under the GNU General Public License. You can find
 the license in the [LICENSE.md](./LICENSE.md) file.
