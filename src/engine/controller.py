@@ -186,3 +186,4 @@ class Controller:
         """
         self.sessionThread = None
         self.sessionEvent.clear()
+        self.session = Session(self.sessionEvent)
