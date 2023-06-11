@@ -1,7 +1,9 @@
 # COMODORO  
 Comodoro is a cross platform Graphical User Interface (GUI) and Command Line Interface (CLI) app that implements the [pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Technique) technique.  
 ## STATUS  
-This project is currently on alpha stage. A lot of features hasn't been implemented yet.  
+This project is currently not maintained. It feels like I'm re-inventting the wheel :). There are already so many pomodoro apps out there. e.g. yapa.  
+If you want to continue building it, fork it! Tbh, I have learnt a lot building it. I just think it is better spending my time building other stuffs.  
+The GUI works but nothing about the CLI has been implemented. I was thinking of using arg parse for the CLI.Then use argparse.Action to send a pubsub message to the CLI controller that will then talk to the engine via zmq sockets.  
 ## INSTALLATION  
 At this point, comodoro doesn't have an installer, so you will have to build a stand alone executable yourself or run it from source. We will only cover running it from source for now. Installers will be created when the project is at beta stage.  
 ### DEPENDENCIES  
